@@ -55,4 +55,5 @@ local function autowin()
 end
 
 while true do
+    autowin()
 end
