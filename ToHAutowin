@@ -1,0 +1,58 @@
+local function ACDisabler()
+    local reg = getreg()
+
+    for i, Function in next, reg do
+        if type(Function) == 'function' then
+            local info = getinfo(Function)
+            
+            if info.name == 'kick' then
+                if (hookfunction(info.func, function(...)end)) then
+                    print('succesfully hooked kick')
+                else
+                    print('failed to hook kick')
+                end
+            end
+        end
+    end
+end
+
+local function god()
+    local RunService = game:GetService("RunService")
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    RunService.Heartbeat:Connect(function()
+        humanoid.Health = 100
+    end)
+end
+
+local function RoundSkip()
+    local args = {
+        [1] = "/skip"
+    }
+
+    game:GetService("ReplicatedStorage").command:InvokeServer(unpack(args)) 
+end
+
+local function autowin()
+    god()
+    local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+    hrp.CFrame = game:GetService("Workspace").tower.finishes.Finish.CFrame * CFrame.new(0, -100, 0)
+    wait(0.1)
+    hrp.CFrame = game:GetService("Workspace").tower.finishes.Finish.CFrame * CFrame.new(0.4, 8, 0)
+    wait(0.1)
+    hrp.CFrame = hrp.CFrame * CFrame.new(0.1, 0.1, 0)
+    wait(0.1)
+    hrp.CFrame = hrp.CFrame * CFrame.new(0.1, 0.1, 0)
+    wait(0.1)
+    hrp.CFrame = hrp.CFrame * CFrame.new(-0.1, 0.1, 0)
+    wait(0.1)
+    hrp.CFrame = hrp.CFrame * CFrame.new(0.1, 0.1, 0)
+    wait(0.1)
+    hrp.CFrame = hrp.CFrame * CFrame.new(-0.1, 0.1, 0)
+    if game:GetService("Players").xyrkz.PlayerGui.timer.timeLeft.multiplier.Text == "x2" then
+        RoundSkip()
+    end
+end
+
+while true do
+end
